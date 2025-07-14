@@ -126,17 +126,16 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
             responseMessage.classList.add('show', type);
         }, 10);
 
-        // Set inline styles as fallback
+        // Set inline styles with black text color
+        responseMessage.style.color = '#000000'; // Always black text
+
         if (type === 'success') {
-            responseMessage.style.color = '#2e7d32';
             responseMessage.style.backgroundColor = 'rgba(76, 175, 80, 0.1)';
             responseMessage.style.border = '2px solid rgba(76, 175, 80, 0.3)';
         } else if (type === 'error') {
-            responseMessage.style.color = '#c62828';
             responseMessage.style.backgroundColor = 'rgba(244, 67, 54, 0.1)';
             responseMessage.style.border = '2px solid rgba(244, 67, 54, 0.3)';
         } else if (type === 'info') {
-            responseMessage.style.color = '#1565c0';
             responseMessage.style.backgroundColor = 'rgba(33, 150, 243, 0.1)';
             responseMessage.style.border = '2px solid rgba(33, 150, 243, 0.3)';
         }
@@ -170,7 +169,7 @@ function testSuccessMessage() {
     setTimeout(() => {
         responseMessage.classList.add('show', 'success');
     }, 10);
-    responseMessage.style.color = '#2e7d32';
+    responseMessage.style.color = '#000000'; // Black text
     responseMessage.style.backgroundColor = 'rgba(76, 175, 80, 0.1)';
     responseMessage.style.border = '2px solid rgba(76, 175, 80, 0.3)';
 
