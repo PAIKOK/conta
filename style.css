@@ -397,7 +397,7 @@ button.loading::after {
     }
 }
 
-/* Response Message */
+/* Response Message - Enhanced */
 #responseMessage {
     margin-top: 25px;
     padding: 20px;
@@ -410,23 +410,79 @@ button.loading::after {
     min-height: 20px;
     font-family: 'Inter', sans-serif;
     color: #000000;
+    border: 2px solid transparent;
+    display: block;
+    position: relative;
 }
 
 #responseMessage.show {
     opacity: 1;
     transform: translateY(0);
+    animation: slideIn 0.4s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 #responseMessage.success {
-    background: linear-gradient(135deg, rgba(76, 175, 80, 0.2), rgba(139, 195, 74, 0.2));
-    color: #000000;
-    border: 2px solid rgba(76, 175, 80, 0.5);
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.15), rgba(139, 195, 74, 0.15));
+    color: #2e7d32;
+    border: 2px solid rgba(76, 175, 80, 0.4);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
 }
 
 #responseMessage.error {
-    background: linear-gradient(135deg, rgba(244, 67, 54, 0.2), rgba(255, 87, 34, 0.2));
-    color: #000000;
-    border: 2px solid rgba(244, 67, 54, 0.5);
+    background: linear-gradient(135deg, rgba(244, 67, 54, 0.15), rgba(255, 87, 34, 0.15));
+    color: #c62828;
+    border: 2px solid rgba(244, 67, 54, 0.4);
+    box-shadow: 0 4px 12px rgba(244, 67, 54, 0.2);
+}
+
+#responseMessage.info {
+    background: linear-gradient(135deg, rgba(33, 150, 243, 0.15), rgba(3, 169, 244, 0.15));
+    color: #1565c0;
+    border: 2px solid rgba(33, 150, 243, 0.4);
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.2);
+}
+
+/* Success animation */
+#responseMessage.success::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid #2e7d32;
+    border-radius: 50%;
+    animation: successPulse 2s infinite;
+}
+
+@keyframes successPulse {
+    0% {
+        transform: translateY(-50%) scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateY(-50%) scale(1.1);
+        opacity: 0.7;
+    }
+
+    100% {
+        transform: translateY(-50%) scale(1);
+        opacity: 1;
+    }
 }
 
 /* Responsive Design */
@@ -463,6 +519,11 @@ button.loading::after {
     .toy {
         font-size: 1.5rem;
     }
+
+    #responseMessage {
+        padding: 16px;
+        font-size: 14px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -477,6 +538,11 @@ button.loading::after {
     .toy {
         font-size: 1.2rem;
         opacity: 0.2;
+    }
+
+    #responseMessage {
+        padding: 14px;
+        font-size: 13px;
     }
 }
 
