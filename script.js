@@ -5,12 +5,22 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
     const email = document.getElementById('email').value.trim();
     const message = document.getElementById('message').value.trim();
     const responseMessage = document.getElementById('responseMessage');
+    const submitButton = document.querySelector('button[type="submit"]');
+
+    // Clear previous messages and classes
+    responseMessage.classList.remove('show', 'success', 'error');
+    responseMessage.textContent = '';
 
     if (!name || !email || !message) {
-        responseMessage.textContent = "Please fill in all fields.";
-        responseMessage.style.color = "red";
+        showMessage("Please fill in all fields.", "error");
         return;
     }
+
+    // Show loading state
+    submitButton.classList.add('loading');
+    submitButton.disabled = true;
+    const originalText = submitButton.textContent;
+    submitButton.textContent = 'Sending...';
 
     try {
         const res = await fetch('https://conta-back.onrender.com/api/contact', {
@@ -24,15 +34,33 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
         const data = await res.json();
 
         if (res.ok) {
-            responseMessage.textContent = "✅ " + data.message;
-            responseMessage.style.color = "green";
+            showMessage("✅ " + (data.message || "Message sent successfully!"), "success");
             document.getElementById('contactForm').reset();
         } else {
-            responseMessage.textContent = "❌ " + (data.error || "Submission failed.");
-            responseMessage.style.color = "red";
+            showMessage("❌ " + (data.error || "Submission failed. Please try again."), "error");
         }
     } catch (err) {
-        responseMessage.textContent = "❌ Network error.";
-        responseMessage.style.color = "red";
+        console.error('Network error:', err);
+        showMessage("❌ Network error. Please check your connection and try again.", "error");
+    } finally {
+        // Reset button state
+        submitButton.classList.remove('loading');
+        submitButton.disabled = false;
+        submitButton.textContent = originalText;
+    }
+
+    function showMessage(text, type) {
+        responseMessage.textContent = text;
+        responseMessage.classList.add('show', type);
+
+        // Force reflow to ensure animation works
+        responseMessage.offsetHeight;
+
+        // Auto-hide success messages after 5 seconds
+        if (type === 'success') {
+            setTimeout(() => {
+                responseMessage.classList.remove('show');
+            }, 5000);
+        }
     }
 });
